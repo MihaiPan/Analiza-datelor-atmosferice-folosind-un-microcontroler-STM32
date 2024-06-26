@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <title>Analiza Datelor Atmosferice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            text-align: center;
+            padding: 50px;
+        }
+        .data-container h1 {
+            margin: 20px 0;
+        }
+        .data-container p {
+            margin: 10px 0;
+        }
+        #map {
+            height: 400px;
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        function initMap(latitude, longitude) {
+            var location = {lat: latitude, lng: longitude};
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 11,
+                center: location
+            });
+            var marker = new google.maps.Marker({
+                position: location,
+                map: map
+            });
+        }
+
+        function fetchAtmData() {
+            fetch('get_latest_atm_data.php')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('temperature').innerText = "Temperatura: " + data.temperature + " °C";
+                    document.getElementById('humidity').innerText = "Umiditatea: " + data.humidity + " %";
+                    document.getElementById('pressure').innerText = "Presiunea: " + data.pressure + " hPa";
+                    document.getElementById('UVIndex').innerText = "Indice UV: " + data.UVIndex;
+                    document.getElementById('eCO2').innerText = "eCO2: " + data.eCO2 + " ppm";
+                    document.getElementById('TVOC').innerText = "TVOC: " + data.TVOC + " ppb";
+                })
+                .catch(error => console.error('Eroare la preluarea datelor atmosferice:', error));
+        }
+
+        function fetchLocationData() {
+            fetch('get_latest_location.php')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('latitude').innerText = "Latitudine: " + data.latitude;
+                    document.getElementById('longitude').innerText = "Longitudine: " + data.longitude;
+                    var latitude = parseFloat(data.latitude);
+                    var longitude = parseFloat(data.longitude);
+                    initMap(latitude, longitude);
+                })
+                .catch(error => console.error('Eroare la preluarea datelor de locație:', error));
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            fetchAtmData();
+            fetchLocationData();
+            setInterval(fetchAtmData, 5000); // Refresh atmospheric data every 5 seconds
+            setInterval(fetchLocationData, 60000); // Refresh map data every 1 minute
+        });
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJLZfzY9qZsP0u6gU94SPsjTZBM_u8hpI&callback=fetchLocationData"></script>
+</head>
+<body>
+    <div class="data-container">
+        <h1>Date Atmosferice Recente</h1>
+        <p id="temperature">Temperatura: Încărcare...</p>
+        <p id="humidity">Umiditatea: Încărcare...</p>
+        <p id="pressure">Presiunea: Încărcare...</p>
+        <p id="UVIndex">Indice UV: Încărcare...</p>
+        <p id="eCO2">eCO2: Încărcare...</p>
+        <p id="TVOC">TVOC: Încărcare...</p>
+        <h1>Ultima Locație</h1>
+        <p id="latitude">Latitudine: Încărcare...</p>
+        <p id="longitude">Longitudine: Încărcare...</p>
+        <div id="map"></div>
+    </div>
+</body>
+</html>
