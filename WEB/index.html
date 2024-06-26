@@ -69,11 +69,11 @@
         document.addEventListener('DOMContentLoaded', (event) => {
             fetchAtmData();
             fetchLocationData();
-            setInterval(fetchAtmData, 5000); // Refresh atmospheric data every 5 seconds
-            setInterval(fetchLocationData, 60000); // Refresh map data every 1 minute
+            setInterval(fetchAtmData, 5000); 
+            setInterval(fetchLocationData, 60000); 
         });
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJLZfzY9qZsP0u6gU94SPsjTZBM_u8hpI&callback=fetchLocationData"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=KEY&callback=fetchLocationData"></script>
 </head>
 <body>
     <div class="data-container">
