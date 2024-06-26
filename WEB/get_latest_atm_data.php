@@ -5,26 +5,26 @@ $username = "";
 $password = "";
 $dbname = "";
 
-// Creează conexiunea la baza de date
+// Se creează conexiunea la baza de date
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Verifică conexiunea
+// Se verifică conexiunea
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Execută interogarea pentru a extrage ultima înregistrare
+// Se execută interogarea pentru a extrage ultima înregistrare
 $sql = "SELECT * FROM atm_data ORDER BY id DESC LIMIT 1";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
-    // Datele au fost găsite, le returnăm în format JSON
+    // Datele au fost găsite, sunt returnate în format JSON
     $row = $result->fetch_assoc();
     echo json_encode($row);
 } else {
     echo json_encode(["error" => "No data found"]);
 }
 
-// Închide conexiunea
+// Se închide conexiunea
 $conn->close();
 ?>
