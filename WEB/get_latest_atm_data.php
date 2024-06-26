@@ -1,5 +1,5 @@
 <?php
-// Detalii de conectare la baza de date
+// DB credentials
 $servername = "localhost";
 $username = "";
 $password = "";
