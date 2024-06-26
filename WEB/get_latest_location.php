@@ -1,9 +1,9 @@
 <?php
 // Detalii de conectare la baza de date
 $servername = "localhost";
-$username = "u198184306_stm32_data";
-$password = "Aprozar-12"; 
-$dbname = "u198184306_stm32_data";
+$username = "";
+$password = ""; 
+$dbname = "";
 
 // Creează conexiunea la baza de date
 $conn = new mysqli($servername, $username, $password, $dbname);
